@@ -37,6 +37,15 @@ class Ball(Actor):
         velocity = Point(vx, vy)
         self._body.set_velocity(velocity)
 
+    def bounce_bullet(self):
+        """Bounces the ball in the y direction."""
+        velocity = self._body.get_velocity()
+        rn = random.uniform(0.9, 1.1)
+        vx = velocity.get_x()
+        vy = -BALL_VELOCITY
+        velocity = Point(vx, vy)
+        self._body.set_velocity(velocity)
+
     def get_body(self):
         """Gets the ball's body.
         
