@@ -93,17 +93,24 @@ SCORE_FORMAT = "SCORE: {}"
 # BALL
 BALL_GROUP = "balls"
 BALL_IMAGE = "batter/assets/images/000.png"
-BALL_WIDTH = 28
-BALL_HEIGHT = 28
+BALL_WIDTH = 56
+BALL_HEIGHT = 56
 BALL_VELOCITY = 6
 
 # RACKET
 RACKET_GROUP = "rackets"
-RACKET_IMAGES = [f"batter/assets/images/{n:03}.png" for n in range(100, 103)]
-RACKET_WIDTH = 106
-RACKET_HEIGHT = 28
+RACKET_IMAGE = "batter/assets/images/100.png"
+RACKET_WIDTH = 45
+RACKET_HEIGHT = 53
 RACKET_RATE = 6
 RACKET_VELOCITY = 7
+
+#Bullets
+BULLET_GROUP = "bullets"
+BULLET_IMAGE = "batter/assets/images/001.png"
+BULLET_WIDTH = 14
+BULLET_HEIGHT = 28
+BULLET_VELOCITY = 8
 
 # BRICK
 BRICK_GROUP = "bricks"
