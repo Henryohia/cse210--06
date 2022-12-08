@@ -2,6 +2,7 @@ import csv
 from constants import *
 from game.casting.animation import Animation
 from game.casting.ball import Ball
+from game.casting.bullet import Bullet
 from game.casting.body import Body
 from game.casting.brick import Brick
 from game.casting.image import Image
@@ -15,8 +16,12 @@ from game.scripting.check_over_action import CheckOverAction
 from game.scripting.collide_borders_action import CollideBordersAction
 from game.scripting.collide_brick_action import CollideBrickAction
 from game.scripting.collide_racket_action import CollideRacketAction
+from game.scripting.collide_bullet_action import CollideBulletAction
 from game.scripting.control_racket_action import ControlRacketAction
+from game.scripting.fire_bullets_action import FireBulletsAction
+from game.scripting.remove_bullets_action import RemoveBulletsAction
 from game.scripting.draw_ball_action import DrawBallAction
+from game.scripting.draw_bullets_action import DrawBulletsAction
 from game.scripting.draw_bricks_action import DrawBricksAction
 from game.scripting.draw_dialog_action import DrawDialogAction
 from game.scripting.draw_hud_action import DrawHudAction
@@ -26,6 +31,7 @@ from game.scripting.initialize_devices_action import InitializeDevicesAction
 from game.scripting.load_assets_action import LoadAssetsAction
 from game.scripting.move_ball_action import MoveBallAction
 from game.scripting.move_racket_action import MoveRacketAction
+from game.scripting.move_bullets_action import MoveBulletsAction
 from game.scripting.play_sound_action import PlaySoundAction
 from game.scripting.release_devices_action import ReleaseDevicesAction
 from game.scripting.start_drawing_action import StartDrawingAction
@@ -49,8 +55,12 @@ class SceneManager:
     COLLIDE_BORDERS_ACTION = CollideBordersAction(PHYSICS_SERVICE, AUDIO_SERVICE)
     COLLIDE_BRICKS_ACTION = CollideBrickAction(PHYSICS_SERVICE, AUDIO_SERVICE)
     COLLIDE_RACKET_ACTION = CollideRacketAction(PHYSICS_SERVICE, AUDIO_SERVICE)
+    COLLIDE_BULLETS_ACTION = CollideBulletAction(PHYSICS_SERVICE, AUDIO_SERVICE)
     CONTROL_RACKET_ACTION = ControlRacketAction(KEYBOARD_SERVICE)
+    FIRE_BULLETS_ACTION = FireBulletsAction(KEYBOARD_SERVICE)
+    REMOVE_BULLETS_ACTION = RemoveBulletsAction(KEYBOARD_SERVICE)
     DRAW_BALL_ACTION = DrawBallAction(VIDEO_SERVICE)
+    DRAW_BULLETS_ACTION = DrawBulletsAction(VIDEO_SERVICE)
     DRAW_BRICKS_ACTION = DrawBricksAction(VIDEO_SERVICE)
     DRAW_DIALOG_ACTION = DrawDialogAction(VIDEO_SERVICE)
     DRAW_HUD_ACTION = DrawHudAction(VIDEO_SERVICE)
@@ -60,6 +70,7 @@ class SceneManager:
     LOAD_ASSETS_ACTION = LoadAssetsAction(AUDIO_SERVICE, VIDEO_SERVICE)
     MOVE_BALL_ACTION = MoveBallAction()
     MOVE_RACKET_ACTION = MoveRacketAction()
+    MOVE_BULLETS_ACTION = MoveBulletsAction()
     RELEASE_DEVICES_ACTION = ReleaseDevicesAction(AUDIO_SERVICE, VIDEO_SERVICE)
     START_DRAWING_ACTION = StartDrawingAction(VIDEO_SERVICE)
     UNLOAD_ASSETS_ACTION = UnloadAssetsAction(AUDIO_SERVICE, VIDEO_SERVICE)
@@ -89,6 +100,7 @@ class SceneManager:
         self._add_lives(cast)
         self._add_score(cast)
         self._add_ball(cast)
+        self._add_bullets(cast)
         self._add_bricks(cast)
         self._add_racket(cast)
         self._add_dialog(cast, ENTER_TO_START)
@@ -160,6 +172,10 @@ class SceneManager:
         image = Image(BALL_IMAGE)
         ball = Ball(body, image, True)
         cast.add_actor(BALL_GROUP, ball)
+
+    def _add_bullets(self, cast):
+        cast.clear_actors(BULLET_GROUP)
+
 
     def _add_bricks(self, cast):
         cast.clear_actors(BRICK_GROUP)
@@ -235,8 +251,8 @@ class SceneManager:
         size = Point(RACKET_WIDTH, RACKET_HEIGHT)
         velocity = Point(0, 0)
         body = Body(position, size, velocity)
-        animation = Animation(RACKET_IMAGES, RACKET_RATE)
-        racket = Racket(body, animation)
+        image = Image(RACKET_IMAGE)
+        racket = Racket(body, image)
         cast.add_actor(RACKET_GROUP, racket)
 
     # ----------------------------------------------------------------------------------------------
@@ -255,6 +271,7 @@ class SceneManager:
         script.add_action(OUTPUT, self.START_DRAWING_ACTION)
         script.add_action(OUTPUT, self.DRAW_HUD_ACTION)
         script.add_action(OUTPUT, self.DRAW_BALL_ACTION)
+        script.add_action(OUTPUT, self.DRAW_BULLETS_ACTION)
         script.add_action(OUTPUT, self.DRAW_BRICKS_ACTION)
         script.add_action(OUTPUT, self.DRAW_RACKET_ACTION)
         script.add_action(OUTPUT, self.DRAW_DIALOG_ACTION)
@@ -272,8 +289,12 @@ class SceneManager:
         script.clear_actions(UPDATE)
         script.add_action(UPDATE, self.MOVE_BALL_ACTION)
         script.add_action(UPDATE, self.MOVE_RACKET_ACTION)
+        script.add_action(UPDATE, self.FIRE_BULLETS_ACTION)
+        script.add_action(UPDATE, self.MOVE_BULLETS_ACTION)
+        script.add_action(UPDATE, self.REMOVE_BULLETS_ACTION)
         script.add_action(UPDATE, self.COLLIDE_BORDERS_ACTION)
         script.add_action(UPDATE, self.COLLIDE_BRICKS_ACTION)
+        script.add_action(UPDATE, self.COLLIDE_BULLETS_ACTION)
         script.add_action(UPDATE, self.COLLIDE_RACKET_ACTION)
         script.add_action(UPDATE, self.MOVE_RACKET_ACTION)
         script.add_action(UPDATE, self.CHECK_OVER_ACTION)
