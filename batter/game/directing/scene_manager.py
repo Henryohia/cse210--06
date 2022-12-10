@@ -172,8 +172,8 @@ class SceneManager:
         size = Point(BALL_WIDTH, BALL_HEIGHT)
         velocity = Point(0, 0)
         body = Body(position, size, velocity)
-        image = Image(BALL_IMAGE)
-        ball = Ball(body, image, True)
+        animation = Animation(BALL_IMAGES)
+        ball = Ball(body, animation, True)
         cast.add_actor(BALL_GROUP, ball)
 
     def _add_bullets(self, cast):
