@@ -89,6 +89,8 @@ class SceneManager:
             self._prepare_in_play(cast, script)
         elif scene == GAME_OVER:    
             self._prepare_game_over(cast, script)
+        elif scene == VICTORY:
+            self._prepare_victory_screen(cast, script)
     
     # ----------------------------------------------------------------------------------------------
     # scene methods
@@ -149,12 +151,26 @@ class SceneManager:
     def _prepare_game_over(self, cast, script):
         self._add_ball(cast)
         self._add_racket(cast)
+        self._add_bullets(cast)
         self._add_dialog(cast, WAS_GOOD_GAME)
 
         script.clear_actions(INPUT)
         script.add_action(INPUT, TimedChangeSceneAction(NEW_GAME, 5))
         script.clear_actions(UPDATE)
         self._add_output_script(script)
+
+    def _prepare_victory_screen(self, cast, script):
+        cast.clear_actors(BALL_GROUP)
+        cast.clear_actors(RACKET_GROUP)
+        cast.clear_actors(BULLET_GROUP)
+        cast.clear_actors(BRICK_GROUP)
+        self._add_dialog(cast, WAS_Victory)
+        
+        script.clear_actions(INPUT)
+        script.add_action(INPUT, TimedChangeSceneAction(NEW_GAME, 5))
+        script.clear_actions(UPDATE)
+        self._add_output_script(script)
+
 
     # ----------------------------------------------------------------------------------------------
     # casting methods
@@ -166,8 +182,8 @@ class SceneManager:
 
     def _add_ball(self, cast):
         cast.clear_actors(BALL_GROUP)
-        x = CENTER_X - BALL_WIDTH / 2
-        y = SCREEN_HEIGHT - RACKET_HEIGHT -10 - BALL_HEIGHT  
+        x = CENTER_X - RACKET_WIDTH / 2 - 5
+        y = SCREEN_HEIGHT - RACKET_HEIGHT - 50 - BALL_HEIGHT  
         position = Point(x, y)
         size = Point(BALL_WIDTH, BALL_HEIGHT)
         velocity = Point(0, 0)
@@ -184,7 +200,7 @@ class SceneManager:
         cast.clear_actors(BRICK_GROUP)
         
         stats = cast.get_first_actor(STATS_GROUP)
-        level = stats.get_level() % BASE_LEVELS
+        level = stats.get_level()
         filename = LEVEL_FILE.format(level)
 
         with open(filename, 'r') as file:
@@ -193,24 +209,15 @@ class SceneManager:
             for r, row in enumerate(reader):
                 for c, column in enumerate(row):
 
-                    x = FIELD_LEFT + c * BRICK_WIDTH
-                    y = FIELD_TOP + r * BRICK_HEIGHT
-                    color = column[0]
-                    frames = int(column[1])
-                    points = BRICK_POINTS 
-                    
-                    if frames == 1:
-                        points *= 2
-                    
-                    if column[0] == "e":
-                        size = Point(BRICK_WIDTH, 0)
-                    else:
-                        size = Point(BRICK_WIDTH, BRICK_HEIGHT)
-
+                    x = FIELD_LEFT + c * COLUMNS_WIDTH + BRICK_WIDTH
+                    y = FIELD_TOP + r * ROW_HEIGHT - BRICK_HEIGHT / 2
+                    type = column[0]
+                    points = BRICK_POINTS * int(column[1])
+                    size = Point(BRICK_WIDTH if type != "a" else 45, BRICK_HEIGHT)
                     position = Point(x, y)
                     velocity = Point(0, 0)
                     body = Body(position, size, velocity)
-                    image = Image(BRICK_IMAGES[color])
+                    image = Image(BRICK_IMAGES[type])
 
                     brick = Brick(body, image, points)
                     cast.add_actor(BRICK_GROUP, brick)
@@ -251,7 +258,7 @@ class SceneManager:
     def _add_racket(self, cast):
         cast.clear_actors(RACKET_GROUP)
         x = CENTER_X - RACKET_WIDTH / 2
-        y = SCREEN_HEIGHT - (RACKET_HEIGHT + 10)
+        y = SCREEN_HEIGHT - RACKET_HEIGHT - 50
         position = Point(x, y)
         size = Point(RACKET_WIDTH, RACKET_HEIGHT)
         velocity = Point(0, 0)
