@@ -1,5 +1,5 @@
 # Demolisher
-Aliens are invading, and you have been called to protect the planet! Your weapon of choice is a giant wrecking ball, capable of smashing the aliens to pieces, but it can also hurt you so be sure to keep it a healthy distance away! You can shoot lasers with the space bar which will bounce the ball around, but the aliens have energy shields so you got to hit them with the wrecking ball! Move your ship with the "A" amd "D" keys.
+Aliens are invading, and you have been called to protect the planet! Your weapon of choice is a giant wrecking ball, capable of smashing the aliens to pieces, but it can also hurt you so be sure to keep it a healthy distance away! You can shoot lasers with the space bar which will bounce the ball around, but the aliens have energy shields so you got to hit them with the wrecking ball! Move your ship with the "<-" and "->" keys.
 
 ## Getting Started
 ---
