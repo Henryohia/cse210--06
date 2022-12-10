@@ -103,22 +103,25 @@ RACKET_IMAGE = "batter/assets/images/100.png"
 RACKET_WIDTH = 46
 RACKET_HEIGHT = 54
 RACKET_RATE = 6
-RACKET_VELOCITY = 7
+RACKET_VELOCITY = 10
 
 #Bullets
 BULLET_GROUP = "bullets"
-BULLET_IMAGE = "batter/assets/images/200.png"
+BULLET_IMAGES = [f"batter/assets/images/{i:03}.png" for i in range(200, 202)]
 BULLET_WIDTH = 14
 BULLET_HEIGHT = 28
-BULLET_VELOCITY = 8
+PLAYER_BULLET_VELOCITY = 6
+ALIEN_BULLET_VELOCITY = -6
 
 # BRICK
 BRICK_GROUP = "bricks"
 BRICK_IMAGES = {
-    "b": [f"batter/assets/images/{i:03}.png" for i in range(10,19)],
-    "g": [f"batter/assets/images/{i:03}.png" for i in range(20,29)],
-    "p": [f"batter/assets/images/{i:03}.png" for i in range(30,39)],
-    "y": [f"batter/assets/images/{i:03}.png" for i in range(40,49)]
+    "s": "batter/assets/images/010.png",
+    "m": "batter/assets/images/020.png",
+    "l": "batter/assets/images/030.png",
+    "x": "batter/assets/images/040.png",
+    "e": "batter/assets/images/050.png",
+    "a": "batter/assets/images/060.png"
 }
 BRICK_WIDTH = 80
 BRICK_HEIGHT = 28
