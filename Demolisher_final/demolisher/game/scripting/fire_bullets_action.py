@@ -28,16 +28,16 @@ class FireBulletsAction(Action):
       oldest_bullet = cast.get_first_actor(BULLET_GROUP)
       frames = oldest_bullet.get_age()
       if frames % self.BULLET_FREQUENCY == 0: #Check if the number of frames is a multiple of BULLET_FREQUENCY
-        self._load_bullet(cast, object, 5, BULLET_IMAGES[0], PLAYER_BULLET_VELOCITY)
-        self._load_bullet(cast, object, 30, BULLET_IMAGES[0], PLAYER_BULLET_VELOCITY)
+        self._load_bullet(cast, object, BULLET_IMAGES[0], PLAYER_BULLET_VELOCITY, 5)
+        self._load_bullet(cast, object, BULLET_IMAGES[0], PLAYER_BULLET_VELOCITY, 30)
     except AttributeError:                           
       # Bullets Group doesn't exist...
-      self._load_bullet(cast, object, 5, BULLET_IMAGES[0], PLAYER_BULLET_VELOCITY)
-      self._load_bullet(cast, object, 30, BULLET_IMAGES[0], PLAYER_BULLET_VELOCITY)
+      self._load_bullet(cast, object, BULLET_IMAGES[0], PLAYER_BULLET_VELOCITY, 5)
+      self._load_bullet(cast, object, BULLET_IMAGES[0], PLAYER_BULLET_VELOCITY, 30)
     except IndexError:
       # No bullets exist...
-      self._load_bullet(cast, object, 5, BULLET_IMAGES[0], PLAYER_BULLET_VELOCITY)
-      self._load_bullet(cast, object, 30, BULLET_IMAGES[0], PLAYER_BULLET_VELOCITY)
+      self._load_bullet(cast, object, BULLET_IMAGES[0], PLAYER_BULLET_VELOCITY, 5)
+      self._load_bullet(cast, object, BULLET_IMAGES[0], PLAYER_BULLET_VELOCITY, 30)
 
   def _fire_alien_bullets(self, cast, bricks):
     """Fires bullets for enemies"""
@@ -48,20 +48,20 @@ class FireBulletsAction(Action):
           oldest_bullet = cast.get_first_actor(BULLET_GROUP)
           frames = oldest_bullet.get_age()
           if frames % self.ALIEN_BULLET_FREQUENCY == 0: #Check if the number of frames is a multiple of ALIEN_BULLET_FREQUENCY
-            self._load_bullet(cast, brick, 15, BULLET_IMAGES[1], ALIEN_BULLET_VELOCITY)
+            self._load_bullet(cast, brick, BULLET_IMAGES[1], ALIEN_BULLET_VELOCITY, 15, 15)
         except AttributeError:                           
           # Bullets Group doesn't exist...
-          self._load_bullet(cast, brick, 15, BULLET_IMAGES[1], ALIEN_BULLET_VELOCITY)
+          self._load_bullet(cast, brick, BULLET_IMAGES[1], ALIEN_BULLET_VELOCITY, 15, 15)
         except IndexError:
           # No bullets exist...
-          self._load_bullet(cast, brick, 15, BULLET_IMAGES[1], ALIEN_BULLET_VELOCITY)
+          self._load_bullet(cast, brick, BULLET_IMAGES[1], ALIEN_BULLET_VELOCITY, 15, 15)
 
       
-  def _load_bullet(self, cast, object, x_offset, image, velocity):
+  def _load_bullet(self, cast, object, image, velocity, x_offset, y_offest = 0):
     """Creates a new bullet."""
     object_body = object.get_body()
     object_position = object_body.get_position()
-    position = Point(object_position.get_x() + x_offset, object_position.get_y())
+    position = Point(object_position.get_x() + x_offset, object_position.get_y() + y_offest)
     size = Point(BULLET_WIDTH, BULLET_HEIGHT)
     image = Image(image)
     velocity = Point(0, velocity)
