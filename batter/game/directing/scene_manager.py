@@ -202,15 +202,17 @@ class SceneManager:
                     if frames == 1:
                         points *= 2
                     
+                    if column[0] == "e":
+                        size = Point(BRICK_WIDTH, 0)
+                    else:
+                        size = Point(BRICK_WIDTH, BRICK_HEIGHT)
+
                     position = Point(x, y)
-                    size = Point(BRICK_WIDTH, BRICK_HEIGHT)
                     velocity = Point(0, 0)
-                    images = BRICK_IMAGES[color][0:frames]
-
                     body = Body(position, size, velocity)
-                    animation = Animation(images, BRICK_RATE, BRICK_DELAY)
+                    image = Image(BRICK_IMAGES[color])
 
-                    brick = Brick(body, animation, points)
+                    brick = Brick(body, image, points)
                     cast.add_actor(BRICK_GROUP, brick)
 
     def _add_dialog(self, cast, message):
@@ -298,5 +300,4 @@ class SceneManager:
         script.add_action(UPDATE, self.COLLIDE_BRICKS_ACTION)
         script.add_action(UPDATE, self.COLLIDE_BULLETS_ACTION)
         script.add_action(UPDATE, self.COLLIDE_RACKET_ACTION)
-        script.add_action(UPDATE, self.MOVE_RACKET_ACTION)
         script.add_action(UPDATE, self.CHECK_OVER_ACTION)
