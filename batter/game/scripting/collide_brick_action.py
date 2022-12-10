@@ -17,6 +17,7 @@ class CollideBrickAction(Action):
         for brick in bricks:
             ball_body = ball.get_body()
             brick_body = brick.get_body()
+            image = brick.get_image()
 
             if self._physics_service.has_collided(ball_body, brick_body):
                 ball.bounce_y()
@@ -25,3 +26,7 @@ class CollideBrickAction(Action):
                 points = brick.get_points()
                 stats.add_points(points)
                 cast.remove_actor(BRICK_GROUP, brick)
+            
+            if image.get_filename() == BRICK_IMAGES['e']:
+                cast.remove_actor(BRICK_GROUP, brick)
+        
