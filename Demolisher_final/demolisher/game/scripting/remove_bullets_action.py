@@ -12,5 +12,5 @@ class RemoveBulletsAction(Action):
         for bullet in bullets:
           body = bullet.get_body()
           position = body.get_position()
-          if position.get_y() <= 0:
+          if position.get_y() <= FIELD_TOP:
             cast.remove_actor(BULLET_GROUP, bullet)
