@@ -7,7 +7,7 @@ from game.casting.point import Point
 class Ball(Actor):
     """A solid, spherical object that is bounced around in the game."""
     
-    def __init__(self, body, image, debug = False):
+    def __init__(self, body, animation, debug = False):
         """Constructs a new Ball.
 
         Args:
@@ -17,7 +17,7 @@ class Ball(Actor):
         """
         super().__init__(debug)
         self._body = body
-        self._image = image
+        self._animation = animation
 
     def bounce_x(self):
         """Bounces the ball in the x direction."""
@@ -54,13 +54,13 @@ class Ball(Actor):
         """
         return self._body
 
-    def get_image(self):
+    def get_animation(self):
         """Gets the ball's image.
         
         Returns:
             An instance of Image.
         """
-        return self._image
+        return self._animation
         
     def release(self):
         """Release the ball in a random direction."""
