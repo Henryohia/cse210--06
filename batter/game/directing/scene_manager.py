@@ -117,6 +117,7 @@ class SceneManager:
         self._add_ball(cast)
         self._add_bricks(cast)
         self._add_racket(cast)
+        self._add_bullets(cast)
         self._add_dialog(cast, PREP_TO_LAUNCH)
 
         script.clear_actions(INPUT)
@@ -127,6 +128,7 @@ class SceneManager:
     def _prepare_try_again(self, cast, script):
         self._add_ball(cast)
         self._add_racket(cast)
+        self._add_bullets(cast)
         self._add_dialog(cast, PREP_TO_LAUNCH)
 
         script.clear_actions(INPUT)
@@ -140,6 +142,7 @@ class SceneManager:
 
         script.clear_actions(INPUT)
         script.add_action(INPUT, self.CONTROL_RACKET_ACTION)
+        script.add_action(INPUT, self.FIRE_BULLETS_ACTION)
         self._add_update_script(script)
         self._add_output_script(script)
 
@@ -164,7 +167,7 @@ class SceneManager:
     def _add_ball(self, cast):
         cast.clear_actors(BALL_GROUP)
         x = CENTER_X - BALL_WIDTH / 2
-        y = SCREEN_HEIGHT - RACKET_HEIGHT - BALL_HEIGHT  
+        y = SCREEN_HEIGHT - RACKET_HEIGHT -10 - BALL_HEIGHT  
         position = Point(x, y)
         size = Point(BALL_WIDTH, BALL_HEIGHT)
         velocity = Point(0, 0)
@@ -246,7 +249,7 @@ class SceneManager:
     def _add_racket(self, cast):
         cast.clear_actors(RACKET_GROUP)
         x = CENTER_X - RACKET_WIDTH / 2
-        y = SCREEN_HEIGHT - RACKET_HEIGHT
+        y = SCREEN_HEIGHT - (RACKET_HEIGHT + 10)
         position = Point(x, y)
         size = Point(RACKET_WIDTH, RACKET_HEIGHT)
         velocity = Point(0, 0)
@@ -271,9 +274,9 @@ class SceneManager:
         script.add_action(OUTPUT, self.START_DRAWING_ACTION)
         script.add_action(OUTPUT, self.DRAW_HUD_ACTION)
         script.add_action(OUTPUT, self.DRAW_BALL_ACTION)
+        script.add_action(OUTPUT, self.DRAW_RACKET_ACTION)
         script.add_action(OUTPUT, self.DRAW_BULLETS_ACTION)
         script.add_action(OUTPUT, self.DRAW_BRICKS_ACTION)
-        script.add_action(OUTPUT, self.DRAW_RACKET_ACTION)
         script.add_action(OUTPUT, self.DRAW_DIALOG_ACTION)
         script.add_action(OUTPUT, self.END_DRAWING_ACTION)
 
@@ -289,7 +292,6 @@ class SceneManager:
         script.clear_actions(UPDATE)
         script.add_action(UPDATE, self.MOVE_BALL_ACTION)
         script.add_action(UPDATE, self.MOVE_RACKET_ACTION)
-        script.add_action(UPDATE, self.FIRE_BULLETS_ACTION)
         script.add_action(UPDATE, self.MOVE_BULLETS_ACTION)
         script.add_action(UPDATE, self.REMOVE_BULLETS_ACTION)
         script.add_action(UPDATE, self.COLLIDE_BORDERS_ACTION)
