@@ -29,9 +29,10 @@ FONT_SMALL = 32
 FONT_LARGE = 48
 
 # SOUND
-BOUNCE_SOUND = "demolisher/assets/sounds/boing.wav"
+BOUNCE_SOUND = "demolisher/assets/sounds/bullet.mp3"
 WELCOME_SOUND = "demolisher/assets/sounds/start.wav"
 OVER_SOUND = "demolisher/assets/sounds/over.wav"
+BULLET2_SOUND = "demolisher/assets/sounds/bullet2.mp3"
 
 # TEXT
 ALIGN_CENTER = 0

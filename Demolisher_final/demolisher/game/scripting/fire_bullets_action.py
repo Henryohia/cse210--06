@@ -4,14 +4,16 @@ from game.casting.point import Point
 from game.casting.image import Image
 from game.casting.body import Body
 from game.casting.bullet import Bullet
+from game.casting.sound import Sound
 
 
 class FireBulletsAction(Action):
   BULLET_FREQUENCY = 25 #Delay between bullets in frames
   ALIEN_BULLET_FREQUENCY = 80 #Delay between bullets in frames
 
-  def __init__(self, keyboard_service):
+  def __init__(self, keyboard_service, audio_service):
     self._keyboard_service = keyboard_service
+    self._audio_service = audio_service
       
   def execute(self, cast, script, callback):
     racket = cast.get_first_actor(RACKET_GROUP)
@@ -68,4 +70,6 @@ class FireBulletsAction(Action):
     body = Body(position, size, velocity)
     bullet = Bullet(body, image)
     cast.add_actor(BULLET_GROUP, bullet)
+    sound = Sound(BULLET2_SOUND)
+    self._audio_service.play_sound(sound)
 
